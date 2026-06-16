@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ShutterSyncAppRequirements>
+    <Project>
+        <Name>ShutterSync Quick Analyzer</Name>
+        <Version>1.0</Version>
+        <Description>撮影現場でスマートフォン等から即座にアクセスし、カメラとLED間の同期トラブル（スキャンラインノイズ等）を最短で解決するための診断・ナビゲーションWebアプリ。</Description>
+    </Project>
+
+    <TargetUsers>
+        <User>DIT (Digital Imaging Technician)</User>
+        <User>カメラマン / カメラアシスタント</User>
+        <User>LEDウォールオペレーター</User>
+    </TargetUsers>
+
+    <InputFields>
+        <Field id="cameraBaseFps" type="float" required="true">
+            <Label>カメラ ベースフレームレート</Label>
+            <Example>23.98, 24.00, 29.97</Example>
+        </Field>
+        <Field id="cameraHsFps" type="float" required="true">
+            <Label>カメラ 実フレームレート (HS)</Label>
+            <Example>59.94, 60.00</Example>
+        </Field>
+        <Field id="ledRefreshRate" type="float" required="true">
+            <Label>LED 駆動リフレッシュレート (Hz)</Label>
+            <Example>59.94, 60.00</Example>
+        </Field>
+        <Field id="shutterMode" type="enum" required="true">
+            <Label>シャッター設定モード</Label>
+            <Options>
+                <Option>Angle</Option>
+                <Option>Speed</Option>
+            </Options>
+        </Field>
+        <Field id="shutterValue" type="float" required="true">
+            <Label>シャッター設定値</Label>
+            <Example>180 (Angleの場合), 100 (Speed 1/100の場合)</Example>
+        </Field>
+        <Field id="hasGenlock" type="boolean" required="true">
+            <Label>カメラへのGenlock入力</Label>
+            <Options>
+                <Option value="true">あり</Option>
+                <Option value="false">なし</Option>
+            </Options>
+        </Field>
+    </InputFields>
+
+    <DiagnosticLogic>
+        <Phase step="1" name="基本周波数と露光の同期チェック">
+            <Rule id="check_fps_sync">
+                <Condition>cameraHsFps != ledRefreshRate</Condition>
+                <Severity>High</Severity>
+                <Advice>【重要】カメラの実フレームレートとLEDの駆動周波数が一致していません。LED側のリフレッシュレートをカメラの実フレームレート（{cameraHsFps}Hz）に合わせてください。</Advice>
+            </Rule>
+            <Rule id="check_shutter_angle">
+                <Condition>shutterMode != 'Angle' OR shutterValue != 180</Condition>
+                <Severity>High</Severity>
+                <Advice>【重要】露光タイミングを合わせるため、まずはカメラのシャッターモードを「Angle」にし、「180°」に設定してください。</Advice>
+            </Rule>
+        </Phase>
+
+        <Phase step="2" name="Brompton側の微調整手順（ノイズが残る場合）">
+            <Instruction order="1">
+                <Action>Phase Offsetの調整</Action>
+                <Description>Bromptonの設定画面にて『Phase Offset』の数値を変更してください。数値を変えることでスキャンラインノイズが上下に動くため、カメラの画角からノイズが見えない位置に設定してください。</Description>
+            </Instruction>
+            <Instruction order="2">
+                <Action>Sensor Readout Timeの調整</Action>
+                <Description>Phase Offsetを調整してもノイズが消えきらない場合は、『Sensor Readout Time』の数値を調整してください。目安として2〜3msあたりに設定すると改善する場合があります。</Description>
+            </Instruction>
+            <Rule id="check_genlock_warning">
+                <Condition>hasGenlock == false</Condition>
+                <Severity>Warning</Severity>
+                <Advice>【警告】カメラにGenlockが入力されていないため、調整したものが時間経過によってズレてしまいます。撮影前に定期的な確認・再調整が必要です。</Advice>
+            </Rule>
+        </Phase>
+    </DiagnosticLogic>
+
+    <UIRequirements>
+        <Requirement>スマートフォンでの片手操作を前提とした1画面完結のレスポンシブデザイン。</Requirement>
+        <Requirement>暗いスタジオ環境での使用を想定したダークモードベースの配色。</Requirement>
+        <Requirement>入力値に変更があった場合、リアルタイムでDiagnosticLogicを再計算し、結果を表示する。</Requirement>
+    </UIRequirements>
+</ShutterSyncAppRequirements>
