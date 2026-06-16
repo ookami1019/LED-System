@@ -1,54 +1,32 @@
-import { useState } from 'react';
-import { PortalHome } from './components/PortalHome';
 import { ShutterSyncAnalyzer } from './components/ShutterSyncAnalyzer';
-import { LedControllerPlaceholder } from './components/LedControllerPlaceholder';
-import { LedCalculatorPlaceholder } from './components/LedCalculatorPlaceholder';
-
-type ViewState = 'portal' | 'flickr' | 'controller' | 'calculator';
 
 function App() {
-  const [currentView, setCurrentView] = useState<ViewState>('portal');
-
-  const renderView = () => {
-    switch (currentView) {
-      case 'flickr':
-        return <ShutterSyncAnalyzer />;
-      case 'controller':
-        return <LedControllerPlaceholder />;
-      case 'calculator':
-        return <LedCalculatorPlaceholder />;
-      case 'portal':
-      default:
-        return <PortalHome onSelectView={setCurrentView} />;
-    }
+  const handleBackToPortal = () => {
+    window.location.href = '/';
   };
 
   return (
     <div className="app-container">
-      {/* グローバルナビゲーションバー（ポータル以外で表示） */}
-      {currentView !== 'portal' && (
-        <nav className="global-nav">
-          <div className="nav-content">
-            <button className="nav-back-button" onClick={() => setCurrentView('portal')}>
-              ← ポータルに戻る
-            </button>
-            <div className="nav-breadcrumbs">
-              <span className="breadcrumb-link" onClick={() => setCurrentView('portal')}>
-                LED System Portal
-              </span>
-              <span className="breadcrumb-separator">/</span>
-              <span className="breadcrumb-current">
-                {currentView === 'flickr' && 'ShutterSync Quick Analyzer'}
-                {currentView === 'controller' && 'LED Wall Controller'}
-                {currentView === 'calculator' && 'LED Signal Calculator'}
-              </span>
-            </div>
+      {/* グローバルナビゲーションバー */}
+      <nav className="global-nav">
+        <div className="nav-content">
+          <button className="nav-back-button" onClick={handleBackToPortal}>
+            ← ポータルに戻る
+          </button>
+          <div className="nav-breadcrumbs">
+            <span className="breadcrumb-link" onClick={handleBackToPortal}>
+              LED System Portal
+            </span>
+            <span className="breadcrumb-separator">/</span>
+            <span className="breadcrumb-current">
+              ShutterSync Quick Analyzer
+            </span>
           </div>
-        </nav>
-      )}
+        </div>
+      </nav>
 
       {/* メイン画面表示 */}
-      {renderView()}
+      <ShutterSyncAnalyzer />
 
       {/* 共通フッター */}
       <footer className="app-footer">

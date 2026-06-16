@@ -1,0 +1,22 @@
+# タスクリスト: ポータル画面のルートドメイン独立配置とFlickrの分離
+
+- `[x]` ポータル専用プロジェクト（Portal）の新規構築
+  - `[x]` `Portal` ディレクトリで Vite React プロジェクトを初期化
+  - `[x]` ポータル用のCSS・デザインを配置
+  - `[x]` `PortalHome.tsx` を `Flickr` から `Portal/src/components/` へ移植・調整（`window.location.href` による `/flickr/` への遷移）
+  - `[x]` プレースホルダー画面（`LedControllerPlaceholder.tsx`, `LedCalculatorPlaceholder.tsx`）を `Portal/src/components/` へ移植
+  - `[x]` `Portal/src/App.tsx` を調整し、ポータルとプレースホルダーの切り替えを実装
+  - `[x]` `Portal/Dockerfile` を作成
+  - `[x]` `Portal/docker-compose.yml` を作成
+- `[x]` Flickrプロジェクトの修正
+  - `[x]` `Flickr/src/App.tsx` からポータル切り替えコードを除去し、診断ツール直起動にする
+  - `[x]` Flickrナビゲーションの「ポータルに戻る」のリンク先を `https://led.mimusubi.tokyo/` (ルート) に変更
+  - `[x]` `Flickr/src/components/` 内の不要ファイルを削除 (`PortalHome.tsx`, プレースホルダー等)
+- `[x]` 共有インフラ設定（mws-infrastructure）の更新
+  - `[x]` `nginx/default.conf` に `location /` （Portalコンテナへのプロキシ）を追加
+  - `[x]` `web_set/site_structure.xml` に `portal` を追記
+- `[x]` 検証と動作確認
+  - `[x]` Portalアプリのローカルビルド検証 (`npm run build`)
+  - `[x]` FlickrアプリのVitestテストの実行 (`npm run test`)
+  - `[x]` Flickrアプリのビルド検証 (`npm run build`)
+  - `[x]` 挙動・画面遷移の手動確認

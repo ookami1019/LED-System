@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # ============================================================
+  # LED System Portal
+  # アクセス: http://localhost:3004/
+  # ============================================================
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portal
+    ports:
+      - "3004:80"
+    restart: always
+    networks:
+      - web-network
+
+networks:
+  web-network:
+    external: true
+    name: my-web-server-network

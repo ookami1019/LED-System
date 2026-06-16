@@ -2,7 +2,7 @@
  * ポータル画面コンポーネント
  */
 interface PortalHomeProps {
-  onSelectView: (view: 'flickr' | 'controller' | 'calculator') => void;
+  onSelectView: (view: 'controller' | 'calculator') => void;
 }
 
 export function PortalHome({ onSelectView }: PortalHomeProps) {
@@ -47,7 +47,13 @@ export function PortalHome({ onSelectView }: PortalHomeProps) {
           <div
             key={tool.id}
             className={`portal-card ${tool.status}`}
-            onClick={() => onSelectView(tool.id)}
+            onClick={() => {
+              if (tool.id === 'flickr') {
+                window.location.href = '/flickr/';
+              } else {
+                onSelectView(tool.id);
+              }
+            }}
           >
             <div className="card-header-row">
               <span className={`card-badge ${tool.status}`}>{tool.tag}</span>
