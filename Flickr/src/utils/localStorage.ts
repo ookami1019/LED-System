@@ -25,11 +25,11 @@ export function loadSavedInputs(): AnalyzerInputs {
     }
     const parsed = JSON.parse(saved);
     return {
-      cameraBaseFps: typeof parsed.cameraBaseFps === 'number' ? parsed.cameraBaseFps : DEFAULT_INPUTS.cameraBaseFps,
-      cameraHsFps: typeof parsed.cameraHsFps === 'number' ? parsed.cameraHsFps : DEFAULT_INPUTS.cameraHsFps,
-      ledRefreshRate: typeof parsed.ledRefreshRate === 'number' ? parsed.ledRefreshRate : DEFAULT_INPUTS.ledRefreshRate,
+      cameraBaseFps: (typeof parsed.cameraBaseFps === 'number' || typeof parsed.cameraBaseFps === 'string') ? parsed.cameraBaseFps : DEFAULT_INPUTS.cameraBaseFps,
+      cameraHsFps: (typeof parsed.cameraHsFps === 'number' || typeof parsed.cameraHsFps === 'string') ? parsed.cameraHsFps : DEFAULT_INPUTS.cameraHsFps,
+      ledRefreshRate: (typeof parsed.ledRefreshRate === 'number' || typeof parsed.ledRefreshRate === 'string') ? parsed.ledRefreshRate : DEFAULT_INPUTS.ledRefreshRate,
       shutterMode: parsed.shutterMode === 'Angle' || parsed.shutterMode === 'Speed' ? parsed.shutterMode : DEFAULT_INPUTS.shutterMode,
-      shutterValue: typeof parsed.shutterValue === 'number' ? parsed.shutterValue : DEFAULT_INPUTS.shutterValue,
+      shutterValue: (typeof parsed.shutterValue === 'number' || typeof parsed.shutterValue === 'string') ? parsed.shutterValue : DEFAULT_INPUTS.shutterValue,
       hasGenlock: typeof parsed.hasGenlock === 'boolean' ? parsed.hasGenlock : DEFAULT_INPUTS.hasGenlock,
       sensorType: parsed.sensorType === 'Rolling' || parsed.sensorType === 'Global' ? parsed.sensorType : DEFAULT_INPUTS.sensorType,
     };

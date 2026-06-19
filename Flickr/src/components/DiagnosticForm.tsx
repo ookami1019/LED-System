@@ -34,10 +34,10 @@ export const DiagnosticForm: React.FC<DiagnosticFormProps> = ({ inputs, onChange
           <div className="input-with-presets">
             <input
               id="cameraBaseFps"
-              type="number"
-              step="0.001"
+              type="text"
+              inputMode="decimal"
               value={inputs.cameraBaseFps}
-              onChange={(e) => handleInputChange('cameraBaseFps', parseFloat(e.target.value) || 0)}
+              onChange={(e) => handleInputChange('cameraBaseFps', e.target.value.replace(/[^0-9.]/g, ''))}
               className="form-input"
             />
             <div className="preset-buttons">
@@ -60,10 +60,10 @@ export const DiagnosticForm: React.FC<DiagnosticFormProps> = ({ inputs, onChange
           <div className="input-with-presets">
             <input
               id="cameraHsFps"
-              type="number"
-              step="0.001"
+              type="text"
+              inputMode="decimal"
               value={inputs.cameraHsFps}
-              onChange={(e) => handleInputChange('cameraHsFps', parseFloat(e.target.value) || 0)}
+              onChange={(e) => handleInputChange('cameraHsFps', e.target.value.replace(/[^0-9.]/g, ''))}
               className="form-input"
             />
             <div className="preset-buttons">
@@ -108,10 +108,10 @@ export const DiagnosticForm: React.FC<DiagnosticFormProps> = ({ inputs, onChange
           <div className="input-with-presets">
             <input
               id="ledRefreshRate"
-              type="number"
-              step="0.001"
+              type="text"
+              inputMode="decimal"
               value={inputs.ledRefreshRate}
-              onChange={(e) => handleInputChange('ledRefreshRate', parseFloat(e.target.value) || 0)}
+              onChange={(e) => handleInputChange('ledRefreshRate', e.target.value.replace(/[^0-9.]/g, ''))}
               className="form-input"
             />
             <div className="preset-buttons">
@@ -168,10 +168,10 @@ export const DiagnosticForm: React.FC<DiagnosticFormProps> = ({ inputs, onChange
             </label>
             <input
               id="shutterValue"
-              type="number"
-              step="0.1"
+              type="text"
+              inputMode="decimal"
               value={inputs.shutterValue}
-              onChange={(e) => handleInputChange('shutterValue', parseFloat(e.target.value) || 0)}
+              onChange={(e) => handleInputChange('shutterValue', e.target.value.replace(/[^0-9.]/g, ''))}
               className="form-input"
             />
           </div>

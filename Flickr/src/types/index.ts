@@ -3,15 +3,15 @@
  */
 export interface AnalyzerInputs {
   /** カメラ ベースフレームレート (例: 23.98, 24.00) */
-  cameraBaseFps: number;
+  cameraBaseFps: number | string;
   /** カメラ 実フレームレート (例: 59.94, 60.00) */
-  cameraHsFps: number;
+  cameraHsFps: number | string;
   /** LED 駆動リフレッシュレート (例: 59.94, 60.00) */
-  ledRefreshRate: number;
+  ledRefreshRate: number | string;
   /** シャッター設定モード (Angle または Speed) */
   shutterMode: 'Angle' | 'Speed';
   /** シャッター設定値 (Angleの場合は角度、Speedの場合は分母の数値) */
-  shutterValue: number;
+  shutterValue: number | string;
   /** カメラへのGenlock入力があるかどうか */
   hasGenlock: boolean;
   /** センサーシャッター方式 (Rolling または Global) */

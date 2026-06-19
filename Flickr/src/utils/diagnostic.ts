@@ -5,7 +5,15 @@ import type { AnalyzerInputs, DiagnosticResult, DiagnosticRuleResult, Adjustment
  * @param inputs カメラおよびLEDの設定パラメータ
  * @returns 診断結果
  */
-export function analyzeSettings(inputs: AnalyzerInputs): DiagnosticResult {
+export function analyzeSettings(rawInputs: AnalyzerInputs): DiagnosticResult {
+  const inputs = {
+    ...rawInputs,
+    cameraBaseFps: Number(rawInputs.cameraBaseFps) || 0,
+    cameraHsFps: Number(rawInputs.cameraHsFps) || 0,
+    ledRefreshRate: Number(rawInputs.ledRefreshRate) || 0,
+    shutterValue: Number(rawInputs.shutterValue) || 0,
+  };
+
   const phase1Results: DiagnosticRuleResult[] = [];
   const phase2Results: DiagnosticRuleResult[] = [];
   let hasIssues = false;
