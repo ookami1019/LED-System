@@ -4,7 +4,6 @@ import { logger } from './logger';
 const STORAGE_KEY = 'shuttersync_analyzer_inputs';
 
 export const DEFAULT_INPUTS: AnalyzerInputs = {
-  cameraBaseFps: 23.976,
   cameraHsFps: 59.94,
   ledRefreshRate: 60.00,
   shutterMode: 'Angle',
@@ -25,7 +24,6 @@ export function loadSavedInputs(): AnalyzerInputs {
     }
     const parsed = JSON.parse(saved);
     return {
-      cameraBaseFps: (typeof parsed.cameraBaseFps === 'number' || typeof parsed.cameraBaseFps === 'string') ? parsed.cameraBaseFps : DEFAULT_INPUTS.cameraBaseFps,
       cameraHsFps: (typeof parsed.cameraHsFps === 'number' || typeof parsed.cameraHsFps === 'string') ? parsed.cameraHsFps : DEFAULT_INPUTS.cameraHsFps,
       ledRefreshRate: (typeof parsed.ledRefreshRate === 'number' || typeof parsed.ledRefreshRate === 'string') ? parsed.ledRefreshRate : DEFAULT_INPUTS.ledRefreshRate,
       shutterMode: parsed.shutterMode === 'Angle' || parsed.shutterMode === 'Speed' ? parsed.shutterMode : DEFAULT_INPUTS.shutterMode,

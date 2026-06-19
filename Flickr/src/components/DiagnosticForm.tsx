@@ -17,7 +17,6 @@ export const DiagnosticForm: React.FC<DiagnosticFormProps> = ({ inputs, onChange
     });
   };
 
-  const cameraBasePresets = [23.976, 24.00, 25.00, 29.97, 30.00];
   const cameraHsPresets = [23.976, 24.00, 25.00, 29.97, 30.00, 47.952, 48.00, 50.00, 59.94, 60.00, 95.904, 100.00, 120.00];
   const ledRefreshPresets = [23.976, 24.00, 25.00, 29.97, 30.00, 47.952, 48.00, 50.00, 59.94, 60.00, 95.904, 100.00, 120.00];
 
@@ -28,35 +27,7 @@ export const DiagnosticForm: React.FC<DiagnosticFormProps> = ({ inputs, onChange
     <div className="diagnostic-form-container">
       <form className="diagnostic-form" onSubmit={(e) => e.preventDefault()}>
         <div className="form-group">
-          <label htmlFor="cameraBaseFps" className="form-label">
-            カメラ ベースフレームレート (Fps)
-          </label>
-          <div className="input-with-presets">
-            <input
-              id="cameraBaseFps"
-              type="text"
-              inputMode="decimal"
-              value={inputs.cameraBaseFps}
-              onChange={(e) => handleInputChange('cameraBaseFps', e.target.value.replace(/[^0-9.]/g, ''))}
-              className="form-input"
-            />
-            <div className="preset-buttons">
-              {cameraBasePresets.map((preset) => (
-                <button
-                  key={preset}
-                  type="button"
-                  className={`preset-btn ${inputs.cameraBaseFps === preset ? 'active' : ''}`}
-                  onClick={() => handleInputChange('cameraBaseFps', preset)}
-                >
-                  {preset}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label className="form-label">カメラ 実フレームレート (HS)</label>
+          <label className="form-label">カメラ センサーフレームレート (Fps)</label>
           <div className="input-with-presets">
             <input
               id="cameraHsFps"

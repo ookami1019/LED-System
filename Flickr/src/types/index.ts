@@ -2,9 +2,7 @@
  * カメラとLEDの同期トラブルを解決するための入力パラメータ
  */
 export interface AnalyzerInputs {
-  /** カメラ ベースフレームレート (例: 23.98, 24.00) */
-  cameraBaseFps: number | string;
-  /** カメラ 実フレームレート (例: 59.94, 60.00) */
+  /** カメラ センサー(実)フレームレート (例: 59.94, 60.00) */
   cameraHsFps: number | string;
   /** LED 駆動リフレッシュレート (例: 59.94, 60.00) */
   ledRefreshRate: number | string;

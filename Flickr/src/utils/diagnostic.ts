@@ -8,7 +8,6 @@ import type { AnalyzerInputs, DiagnosticResult, DiagnosticRuleResult, Adjustment
 export function analyzeSettings(rawInputs: AnalyzerInputs): DiagnosticResult {
   const inputs = {
     ...rawInputs,
-    cameraBaseFps: Number(rawInputs.cameraBaseFps) || 0,
     cameraHsFps: Number(rawInputs.cameraHsFps) || 0,
     ledRefreshRate: Number(rawInputs.ledRefreshRate) || 0,
     shutterValue: Number(rawInputs.shutterValue) || 0,
