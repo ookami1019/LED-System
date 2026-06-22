@@ -5,7 +5,6 @@ import type { AnalyzerInputs } from '../../types';
 describe('analyzeSettings', () => {
   it('should return no issues when settings are synchronized and have genlock', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 59.94,
       ledRefreshRate: 59.94,
       shutterMode: 'Angle',
@@ -23,7 +22,6 @@ describe('analyzeSettings', () => {
 
   it('should trigger check_fps_sync warning when camera HS FPS and LED refresh rate differ', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 59.94,
       ledRefreshRate: 60.00, // 不一致
       shutterMode: 'Angle',
@@ -42,7 +40,6 @@ describe('analyzeSettings', () => {
 
   it('should trigger check_shutter_angle warning when shutter mode is not Angle', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 59.94,
       ledRefreshRate: 59.94,
       shutterMode: 'Speed', // 不一致
@@ -60,7 +57,6 @@ describe('analyzeSettings', () => {
 
   it('should trigger check_shutter_angle warning when shutter value is not 180', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 59.94,
       ledRefreshRate: 59.94,
       shutterMode: 'Angle',
@@ -77,7 +73,6 @@ describe('analyzeSettings', () => {
 
   it('should trigger check_genlock_warning when hasGenlock is false', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 59.94,
       ledRefreshRate: 59.94,
       shutterMode: 'Angle',
@@ -96,7 +91,6 @@ describe('analyzeSettings', () => {
 
   it('should return no issues when shutter mode is Speed and calculated angle is 180', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Speed',
@@ -113,7 +107,6 @@ describe('analyzeSettings', () => {
 
   it('should trigger warning when shutter mode is Speed and calculated angle is not 180', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Speed',
@@ -133,7 +126,6 @@ describe('analyzeSettings', () => {
 
   it('should evaluate risk as Safe when shutter angle is 360', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Angle',
@@ -150,7 +142,6 @@ describe('analyzeSettings', () => {
 
   it('should evaluate risk as Moderate when shutter angle is 180', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Angle',
@@ -167,7 +158,6 @@ describe('analyzeSettings', () => {
 
   it('should evaluate risk as HighRisk when shutter angle is 90', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Angle',
@@ -184,7 +174,6 @@ describe('analyzeSettings', () => {
 
   it('should evaluate risk for Global shutter and not raise shutter angle warnings when shutter is not 180', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Angle',
@@ -201,7 +190,6 @@ describe('analyzeSettings', () => {
 
   it('should evaluate risk as Safe for Global shutter when shutter angle is 360', () => {
     const inputs: AnalyzerInputs = {
-      cameraBaseFps: 23.976,
       cameraHsFps: 60.00,
       ledRefreshRate: 60.00,
       shutterMode: 'Angle',

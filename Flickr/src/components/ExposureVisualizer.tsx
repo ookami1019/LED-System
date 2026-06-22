@@ -9,17 +9,21 @@ interface ExposureVisualizerProps {
 export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, result }) => {
   const { exposureTime, riskAssessment, calculatedShutterAngle } = result;
 
+  const parsedShutterValue = Number(inputs.shutterValue) || 0;
+  const parsedCameraHsFps = Number(inputs.cameraHsFps) || 0;
+  const parsedLedRefreshRate = Number(inputs.ledRefreshRate) || 0;
+
   // 実質的なシャッター角度
   const shutterAngle = inputs.shutterMode === 'Angle'
-    ? inputs.shutterValue
+    ? parsedShutterValue
     : (calculatedShutterAngle ?? 180);
 
   // 実質的な露出分母
   const expDenominator = exposureTime > 0 ? Math.round(1 / exposureTime) : 0;
 
   // アニメーション周期（見やすさのためにスケーリング。基準は60fps/60Hzで1.5秒周期に設定）
-  const shutterSpeedPeriod = inputs.cameraHsFps > 0 ? 90 / inputs.cameraHsFps : 1.5;
-  const ledSpeedPeriod = inputs.ledRefreshRate > 0 ? 90 / inputs.ledRefreshRate : 1.5;
+  const shutterSpeedPeriod = parsedCameraHsFps > 0 ? 90 / parsedCameraHsFps : 1.5;
+  const ledSpeedPeriod = parsedLedRefreshRate > 0 ? 90 / parsedLedRefreshRate : 1.5;
 
   // スクロール制御用のステート
   const [isScrolling, setIsScrolling] = useState<boolean>(false);
@@ -98,7 +102,7 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
 
   // タイムラインチャート用パラメータの計算
   const renderTimeline = () => {
-    const totalDuration = inputs.cameraHsFps > 0 ? 2.5 / inputs.cameraHsFps : 0.0416; // カメラの2.5フレーム分を表示してストロボ効果を防止
+    const totalDuration = parsedCameraHsFps > 0 ? 2.5 / parsedCameraHsFps : 0.0416; // カメラの2.5フレーム分を表示してストロボ効果を防止
     if (totalDuration <= 0) return null;
 
     const width = 500; // SVGの仮想的な横幅
@@ -112,7 +116,7 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
 
     // カメラの露光区間
     const frames = [];
-    const frameDuration = inputs.cameraHsFps > 0 ? 1 / inputs.cameraHsFps : 0.0166;
+    const frameDuration = parsedCameraHsFps > 0 ? 1 / parsedCameraHsFps : 0.0166;
     
     // 描画範囲に入りうるインデックスを算出
     const minFrameIdx = Math.floor(currentOffset / frameDuration) - 1;
@@ -137,7 +141,7 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
 
     // LEDのフレーム書き換えライン
     const ledLines = [];
-    const ledPeriod = inputs.ledRefreshRate > 0 ? 1 / inputs.ledRefreshRate : 0.0166;
+    const ledPeriod = parsedLedRefreshRate > 0 ? 1 / parsedLedRefreshRate : 0.0166;
     
     const minLedIdx = Math.floor(currentOffset / ledPeriod) - 1;
     const maxLedIdx = Math.ceil((currentOffset + totalDuration) / ledPeriod) + 1;
