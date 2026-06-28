@@ -67,9 +67,30 @@ export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose })
             </section>
 
             <section className="flex flex-col gap-2">
-              <h3 className="text-base font-bold text-gray-100 border-l-4 border-rose-500 pl-3">スキャンライン現象 / フリッカー (Scanlines / Flicker)</h3>
+              <h3 className="text-base font-bold text-gray-100 border-l-4 border-rose-500 pl-3">スキャンライン現象 / ティアリング (Scanlines / Tearing)</h3>
               <p className="text-sm text-gray-400 leading-relaxed pl-4">
-                LEDのスキャン駆動とカメラのシャッター速度が合わないことによって、画面上に黒い横縞模様が映り込んだり、チカチカと明滅して見える現象です。これを防ぐためにシャッター同期（ShutterSync）が重要になります。
+                LEDの更新タイミングとカメラの露光期間が被ることで、画面上に太い横縞や画面の「裂け（ティアリング）」が映り込む現象。180度など適正なシャッター角度を維持し、GenlockとPhase Offsetで更新タイミングをシャッターが閉じている時間（安全地帯）に隠すことで回避します。
+              </p>
+            </section>
+
+            <section className="flex flex-col gap-2">
+              <h3 className="text-base font-bold text-gray-100 border-l-4 border-orange-500 pl-3">バンディング / フリッカー (Banding / Flicker)</h3>
+              <p className="text-sm text-gray-400 leading-relaxed pl-4">
+                LEDパネルは常に点灯しているわけではなく、超高速で点滅（PWM制御）して明るさや色を表現しています。シャッター角度を極端に狭くする（露光時間を短くする）と、この点滅の途中でシャッターが切られてしまい、画面に細かい黒い横縞（バンディング）が出たり、明るさがチラついたりします。
+              </p>
+            </section>
+
+            <section className="flex flex-col gap-2">
+              <h3 className="text-base font-bold text-gray-100 border-l-4 border-pink-500 pl-3">モアレ (Moiré)</h3>
+              <p className="text-sm text-gray-400 leading-relaxed pl-4">
+                カメラのセンサーの画素の規則性と、LEDパネルのLED素子の並び（ピクセルピッチ）という2つの規則的な細かい模様が干渉して、波打つような大きな模様が発生する現象です。露光時間を短くした暗さを補うためにカメラの絞り（アイリス）を開け、LEDパネルの粒にピントが合ってしまうことが大きな原因の一つです。
+              </p>
+            </section>
+
+            <section className="flex flex-col gap-2">
+              <h3 className="text-base font-bold text-gray-100 border-l-4 border-cyan-500 pl-3">モーションブラー (Motion Blur)</h3>
+              <p className="text-sm text-gray-400 leading-relaxed pl-4">
+                動いている被写体を撮影したときに生じる「ブレ（残像）」のことです。映画や映像制作ではシャッター角度「180度」が生み出すブラーが最も人間の目に自然とされています。角度を狭くするとブラーが消えてカクカクとした不自然な動きになり、広すぎるとブレすぎて輪郭がボヤけた映像になります。
               </p>
             </section>
 
