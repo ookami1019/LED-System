@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { CINEMA_CAMERAS } from '../types';
-import type { PresetType, AspectRatioType } from '../types';
-import type { SensorCategory } from '../App';
+import type { PresetType, AspectRatioType, SensorCategory } from '../types';
 
 interface ParameterPanelProps {
   focalLength: number;
@@ -32,6 +31,8 @@ interface ParameterPanelProps {
   setFocusDistanceM: (v: number) => void;
   isAutoFocus: boolean;
   setIsAutoFocus: (v: boolean) => void;
+  isDofEnabled: boolean;
+  setIsDofEnabled: (v: boolean) => void;
 }
 
 const FOCAL_SHORTCUTS = [24, 35, 50, 80, 100, 135];
@@ -51,6 +52,7 @@ export const ParameterPanel: React.FC<ParameterPanelProps> = ({
   fNumber, setFNumber,
   focusDistanceM, setFocusDistanceM,
   isAutoFocus, setIsAutoFocus,
+  isDofEnabled, setIsDofEnabled,
 }) => {
   const inputClass = "block w-full bg-gray-800 text-white rounded-lg border-gray-700 p-2.5 border focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-colors";
 
@@ -258,7 +260,21 @@ export const ParameterPanel: React.FC<ParameterPanelProps> = ({
       <div className="mb-8">
         <div className="flex justify-between items-end mb-3">
           <label className="block text-sm font-medium text-gray-300">絞り (F値)</label>
-          <span className="font-mono text-lg font-bold text-amber-400 bg-amber-900/30 px-3 py-1 rounded-md">F{fNumber}</span>
+          <div className="flex items-center gap-2">
+            {/* DoF トグルボタン */}
+            <button
+              onClick={() => setIsDofEnabled(!isDofEnabled)}
+              className={`relative inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full border transition-all duration-200 ${
+                isDofEnabled
+                  ? 'bg-blue-600 border-blue-500 text-white shadow-md'
+                  : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${isDofEnabled ? 'bg-white animate-pulse' : 'bg-gray-500'}`} />
+              ボケ(DoF) {isDofEnabled ? 'ON' : 'OFF'}
+            </button>
+            <span className="font-mono text-lg font-bold text-amber-400 bg-amber-900/30 px-3 py-1 rounded-md">F{fNumber}</span>
+          </div>
         </div>
         <input
           type="range"

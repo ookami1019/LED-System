@@ -1,5 +1,6 @@
 export type PresetType = 'full' | 'super35' | 'apsc' | 'mft' | 'custom';
 export type AspectRatioType = 'original' | '16:9' | '9:16' | '2.35:1' | 'custom';
+export type SensorCategory = 'stills' | 'cinema' | 'custom';
 
 export interface SensorSize {
   w: number;

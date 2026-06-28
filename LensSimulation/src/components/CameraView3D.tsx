@@ -1,7 +1,14 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
+import type { ThreeEvent } from '@react-three/fiber';
 import { PerspectiveCamera, Text } from '@react-three/drei';
 import { EffectComposer, DepthOfField } from '@react-three/postprocessing';
+import { Human } from './3d/Human';
+import { Tree } from './3d/Tree';
+import { House } from './3d/House';
+import { Mountain } from './3d/Mountain';
+import { Bush } from './3d/Bush';
+import { SportsCar } from './3d/SportsCar';
 
 interface SceneContentProps {
   vFov: number;
@@ -11,314 +18,9 @@ interface SceneContentProps {
   nearLimitM: number;
   farLimitM: number;
   isAutoFocus: boolean;
+  isDofEnabled: boolean;
+  onFocusUpdate: (dist: number) => void;
 }
-
-const Human = ({ position }: { position: [number, number, number] }) => (
-  <group position={position}>
-    {/* ===== 頭部 ===== */}
-    {/* グループを z=-15.15 に配置することで頭前面（カメラ側）が z=-15 になる */}
-    <mesh position={[0, 1.5, 0]}>
-      <sphereGeometry args={[0.15, 24, 24]} />
-      <meshLambertMaterial color="#fbbcaa" />
-    </mesh>
-
-    {/* ===== 顔パーツ（頭中心 [0,1.5,0] 相対） ===== */}
-
-    {/* 左まゆ毛 */}
-    <mesh position={[-0.055, 1.565, 0.130]} rotation={[0, 0, 0.15]}>
-      <boxGeometry args={[0.058, 0.013, 0.010]} />
-      <meshLambertMaterial color="#6b3e26" />
-    </mesh>
-    {/* 右まゆ毛 */}
-    <mesh position={[0.055, 1.565, 0.130]} rotation={[0, 0, -0.15]}>
-      <boxGeometry args={[0.058, 0.013, 0.010]} />
-      <meshLambertMaterial color="#6b3e26" />
-    </mesh>
-
-    {/* 左目・白目 */}
-    <mesh position={[-0.054, 1.528, 0.128]}>
-      <sphereGeometry args={[0.030, 12, 12]} />
-      <meshLambertMaterial color="#f8f8f8" />
-    </mesh>
-    {/* 左目・虹彩 */}
-    <mesh position={[-0.054, 1.528, 0.153]}>
-      <sphereGeometry args={[0.019, 10, 10]} />
-      <meshLambertMaterial color="#1a4e8a" />
-    </mesh>
-    {/* 左目・瞳孔 */}
-    <mesh position={[-0.054, 1.528, 0.162]}>
-      <sphereGeometry args={[0.010, 8, 8]} />
-      <meshLambertMaterial color="#0a0a0a" />
-    </mesh>
-
-    {/* 右目・白目 */}
-    <mesh position={[0.054, 1.528, 0.128]}>
-      <sphereGeometry args={[0.030, 12, 12]} />
-      <meshLambertMaterial color="#f8f8f8" />
-    </mesh>
-    {/* 右目・虹彩 */}
-    <mesh position={[0.054, 1.528, 0.153]}>
-      <sphereGeometry args={[0.019, 10, 10]} />
-      <meshLambertMaterial color="#1a4e8a" />
-    </mesh>
-    {/* 右目・瞳孔 */}
-    <mesh position={[0.054, 1.528, 0.162]}>
-      <sphereGeometry args={[0.010, 8, 8]} />
-      <meshLambertMaterial color="#0a0a0a" />
-    </mesh>
-
-    {/* 鼻（最もカメラ側に突出） */}
-    <mesh position={[0, 1.492, 0.158]}>
-      <sphereGeometry args={[0.022, 10, 10]} />
-      <meshLambertMaterial color="#e8937a" />
-    </mesh>
-
-    {/* 口・上唇 */}
-    <mesh position={[0, 1.460, 0.135]}>
-      <boxGeometry args={[0.072, 0.016, 0.012]} />
-      <meshLambertMaterial color="#c0555a" />
-    </mesh>
-    {/* 口・下唇 */}
-    <mesh position={[0, 1.447, 0.133]}>
-      <boxGeometry args={[0.066, 0.012, 0.010]} />
-      <meshLambertMaterial color="#a84a4e" />
-    </mesh>
-
-    {/* ===== 胴体 ===== */}
-    <mesh position={[0, 1.0, 0]}>
-      <cylinderGeometry args={[0.2, 0.18, 0.7, 16]} />
-      <meshLambertMaterial color="#3b82f6" />
-    </mesh>
-    {/* 腕（左） */}
-    <mesh position={[-0.3, 1.0, 0]} rotation={[0, 0, Math.PI / 12]}>
-      <cylinderGeometry args={[0.06, 0.05, 0.6, 8]} />
-      <meshLambertMaterial color="#fbbcaa" />
-    </mesh>
-    {/* 腕（右） */}
-    <mesh position={[0.3, 1.0, 0]} rotation={[0, 0, -Math.PI / 12]}>
-      <cylinderGeometry args={[0.06, 0.05, 0.6, 8]} />
-      <meshLambertMaterial color="#fbbcaa" />
-    </mesh>
-    {/* 脚（左） */}
-    <mesh position={[-0.1, 0.35, 0]}>
-      <cylinderGeometry args={[0.08, 0.07, 0.7, 8]} />
-      <meshLambertMaterial color="#1e293b" />
-    </mesh>
-    {/* 脚（右） */}
-    <mesh position={[0.1, 0.35, 0]}>
-      <cylinderGeometry args={[0.08, 0.07, 0.7, 8]} />
-      <meshLambertMaterial color="#1e293b" />
-    </mesh>
-  </group>
-);
-
-
-const Tree = ({ position }: { position: [number, number, number] }) => (
-  <group position={position}>
-    <mesh position={[0, 1.5, 0]}>
-      <cylinderGeometry args={[0.2, 0.3, 3, 8]} />
-      <meshLambertMaterial color="#78350f" />
-    </mesh>
-    <mesh position={[0, 3.5, 0]}>
-      <coneGeometry args={[1.5, 2, 8]} />
-      <meshLambertMaterial color="#064e3b" />
-    </mesh>
-    <mesh position={[0, 4.5, 0]}>
-      <coneGeometry args={[1.2, 1.8, 8]} />
-      <meshLambertMaterial color="#059669" />
-    </mesh>
-    <mesh position={[0, 5.3, 0]}>
-      <coneGeometry args={[0.9, 1.5, 8]} />
-      <meshLambertMaterial color="#10b981" />
-    </mesh>
-  </group>
-);
-
-const House = ({ position }: { position: [number, number, number] }) => (
-  <group position={position} rotation={[0, -Math.PI / 16, 0]}>
-    {/* 1階建ての家としての高さ（3.5m） */}
-    <mesh position={[0, 1.75, 0]}>
-      <boxGeometry args={[6, 3.5, 5]} />
-      <meshLambertMaterial color="#cbd5e1" />
-    </mesh>
-    {/* 屋根 */}
-    <mesh position={[0, 4.75, 0]} rotation={[0, Math.PI / 4, 0]}>
-      <coneGeometry args={[5, 2.5, 4]} />
-      <meshLambertMaterial color="#7f1d1d" />
-    </mesh>
-    {/* ドア (高さ2.1m, 幅1.0m) */}
-    <mesh position={[0, 1.05, 2.51]}>
-      <boxGeometry args={[1.0, 2.1, 0.1]} />
-      <meshLambertMaterial color="#451a03" />
-    </mesh>
-    {/* 左の窓 (中心の高さ1.5m) */}
-    <mesh position={[-1.5, 1.5, 2.51]}>
-      <boxGeometry args={[1, 1.2, 0.1]} />
-      <meshLambertMaterial color="#bae6fd" />
-    </mesh>
-    {/* 右の窓 (中心の高さ1.5m) */}
-    <mesh position={[1.5, 1.5, 2.51]}>
-      <boxGeometry args={[1, 1.2, 0.1]} />
-      <meshLambertMaterial color="#bae6fd" />
-    </mesh>
-  </group>
-);
-
-const Mountain = ({ position }: { position: [number, number, number] }) => (
-  <group position={position}>
-    <mesh position={[0, 15, 0]}>
-      <coneGeometry args={[30, 30, 16]} />
-      <meshLambertMaterial color="#8493a8" />
-    </mesh>
-    <mesh position={[18, 10, -5]}>
-      <coneGeometry args={[20, 20, 12]} />
-      <meshLambertMaterial color="#64748b" />
-    </mesh>
-    <mesh position={[-15, 12, -2]}>
-      <coneGeometry args={[22, 24, 12]} />
-      <meshLambertMaterial color="#64748b" />
-    </mesh>
-    <mesh position={[0, 28, 0]}>
-      <coneGeometry args={[4.2, 4, 16]} />
-      <meshLambertMaterial color="#f1f5f9" />
-    </mesh>
-  </group>
-);
-
-const Bush = ({ position }: { position: [number, number, number] }) => (
-  <group position={position}>
-    <mesh position={[0, 0.4, 0]}>
-      <sphereGeometry args={[0.5, 16, 16]} />
-      <meshLambertMaterial color="#047857" />
-    </mesh>
-    <mesh position={[-0.3, 0.3, 0.2]}>
-      <sphereGeometry args={[0.35, 16, 16]} />
-      <meshLambertMaterial color="#059669" />
-    </mesh>
-    <mesh position={[0.3, 0.3, -0.1]}>
-      <sphereGeometry args={[0.4, 16, 16]} />
-      <meshLambertMaterial color="#10b981" />
-    </mesh>
-  </group>
-);
-
-const SportsCar = ({ position, rotation }: { position: [number, number, number], rotation?: [number, number, number] }) => (
-  <group position={position} rotation={rotation || [0, 0, 0]}>
-    {/* 車体下部 (シャーシ) */}
-    <mesh position={[0, 0.35, 0]}>
-      <boxGeometry args={[1.8, 0.3, 4.4]} />
-      <meshLambertMaterial color="#dc2626" />
-    </mesh>
-    
-    {/* 車体後部 */}
-    <mesh position={[0, 0.6, 1.2]}>
-      <boxGeometry args={[1.8, 0.3, 2.0]} />
-      <meshLambertMaterial color="#b91c1c" />
-    </mesh>
-
-    {/* フロントノーズ (少し傾斜をつける) */}
-    <mesh position={[0, 0.4, -1.6]} rotation={[-0.1, 0, 0]}>
-      <boxGeometry args={[1.8, 0.3, 1.4]} />
-      <meshLambertMaterial color="#dc2626" />
-    </mesh>
-
-    {/* キャビン (ルーフ周りを少し高くして全高約1.25mに) */}
-    <mesh position={[0, 0.95, 0.1]}>
-      <boxGeometry args={[1.3, 0.45, 1.6]} />
-      <meshLambertMaterial color="#dc2626" />
-    </mesh>
-
-    {/* フロントガラス (少し高さを調整) */}
-    <mesh position={[0, 0.9, -0.6]} rotation={[-0.45, 0, 0]}>
-      <boxGeometry args={[1.2, 0.55, 0.1]} />
-      <meshLambertMaterial color="#1e293b" />
-    </mesh>
-
-    {/* リアガラス (少し高さを調整) */}
-    <mesh position={[0, 0.9, 0.8]} rotation={[0.4, 0, 0]}>
-      <boxGeometry args={[1.2, 0.5, 0.1]} />
-      <meshLambertMaterial color="#1e293b" />
-    </mesh>
-
-    {/* サイドウィンドウ */}
-    <mesh position={[-0.66, 0.95, 0.1]}>
-      <boxGeometry args={[0.02, 0.35, 1.4]} />
-      <meshLambertMaterial color="#1e293b" />
-    </mesh>
-    <mesh position={[0.66, 0.95, 0.1]}>
-      <boxGeometry args={[0.02, 0.35, 1.4]} />
-      <meshLambertMaterial color="#1e293b" />
-    </mesh>
-
-    {/* フロントグリル (黒) */}
-    <mesh position={[0, 0.35, -2.21]}>
-      <boxGeometry args={[1.2, 0.15, 0.05]} />
-      <meshLambertMaterial color="#0f172a" />
-    </mesh>
-
-    {/* ヘッドライト (白/黄色) */}
-    <mesh position={[-0.6, 0.45, -2.18]}>
-      <boxGeometry args={[0.4, 0.1, 0.05]} />
-      <meshBasicMaterial color="#fef08a" />
-    </mesh>
-    <mesh position={[0.6, 0.45, -2.18]}>
-      <boxGeometry args={[0.4, 0.1, 0.05]} />
-      <meshBasicMaterial color="#fef08a" />
-    </mesh>
-
-    {/* テールランプ (赤発光) */}
-    <mesh position={[-0.6, 0.6, 2.21]}>
-      <boxGeometry args={[0.5, 0.1, 0.05]} />
-      <meshBasicMaterial color="#f87171" />
-    </mesh>
-    <mesh position={[0.6, 0.6, 2.21]}>
-      <boxGeometry args={[0.5, 0.1, 0.05]} />
-      <meshBasicMaterial color="#f87171" />
-    </mesh>
-
-    {/* リアウィングの支柱 */}
-    <mesh position={[-0.6, 0.85, 2.0]}>
-      <boxGeometry args={[0.05, 0.25, 0.1]} />
-      <meshLambertMaterial color="#0f172a" />
-    </mesh>
-    <mesh position={[0.6, 0.85, 2.0]}>
-      <boxGeometry args={[0.05, 0.25, 0.1]} />
-      <meshLambertMaterial color="#0f172a" />
-    </mesh>
-    
-    {/* リアウィング本体 */}
-    <mesh position={[0, 0.95, 2.1]}>
-      <boxGeometry args={[1.8, 0.04, 0.5]} />
-      <meshLambertMaterial color="#0f172a" />
-    </mesh>
-
-    {/* サイドミラー */}
-    <mesh position={[-0.75, 0.75, -0.3]}>
-      <boxGeometry args={[0.2, 0.1, 0.1]} />
-      <meshLambertMaterial color="#dc2626" />
-    </mesh>
-    <mesh position={[0.75, 0.75, -0.3]}>
-      <boxGeometry args={[0.2, 0.1, 0.1]} />
-      <meshLambertMaterial color="#dc2626" />
-    </mesh>
-
-    {/* タイヤ周辺 */}
-    {[[-0.95, 0.25, -1.3], [0.95, 0.25, -1.3], [-0.95, 0.25, 1.3], [0.95, 0.25, 1.3]].map((pos, idx) => (
-      <group key={idx} position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]}>
-        {/* タイヤゴム */}
-        <mesh>
-          <cylinderGeometry args={[0.3, 0.3, 0.25, 16]} />
-          <meshLambertMaterial color="#0f172a" />
-        </mesh>
-        {/* ホイールリム (銀色) */}
-        <mesh position={[0, (pos[0] > 0 ? 0.13 : -0.13), 0]}>
-          <cylinderGeometry args={[0.18, 0.18, 0.05, 16]} />
-          <meshLambertMaterial color="#cbd5e1" />
-        </mesh>
-      </group>
-    ))}
-  </group>
-);
 
 const DistanceMarkers = ({ unit }: { unit: 'm' | 'ft' }) => {
   const distances = unit === 'm' 
@@ -374,28 +76,24 @@ const DistanceMarkers = ({ unit }: { unit: 'm' | 'ft' }) => {
   );
 };
 
-const SceneContent: React.FC<SceneContentProps> = ({ vFov, unit, fNumber, focusDistanceM, isAutoFocus }) => {
+const SceneContent: React.FC<SceneContentProps> = ({ vFov, unit, fNumber, focusDistanceM, isAutoFocus, isDofEnabled, onFocusUpdate }) => {
   // DepthOfFieldパラメーターを計算
-  // postprocessing v6 では focusDistance / focusRange はワールド単位（m）
   const dofParams = useMemo(() => {
-    // --- focusDistance: フォーカス距離（ワールド単位・m）---
-    // AF ON: 人物の頭部中心までの実距離
-    //   カメラ [0,1.6,0] → 頭部中心 [0,1.5,-15.15]  ≈ 15.15m
-    // Manual: カメラ正面にフォーカス距離を設定
     const focusDistance = isAutoFocus ? 15 : focusDistanceM;
-
-    // --- focusRange: 合焦帯の前後半幅（ワールド単位・m）---
-    // F 値に反比例: 開放(F1.4)ほど狭く（浅いDoF）、絞り(F22)ほど広い（深いDoF）
-    // 実写感覚の調整値:  F1.4→1m  F2.8→2m  F5.6→4m  F11→8m  F22→20m
     const focusRange = Math.min(focusDistance * focusDistance * 0.004 / fNumber + 0.3, 50);
-
-    // --- bokehScale: ボケの強さ ---
-    // F値が小さいほど大きいボケ（最大10）
     const bokehScale = Math.min(12 / fNumber, 10);
-
     return { focusDistance, focusRange, bokehScale };
   }, [fNumber, focusDistanceM, isAutoFocus]);
 
+  const handleObjectClick = (e: ThreeEvent<MouseEvent>, targetPosition: [number, number, number]) => {
+    e.stopPropagation(); // 複数オブジェクトのクリック重複を防ぐ
+    // カメラは [0, 1.6, 0] にある
+    const dx = targetPosition[0];
+    const dy = targetPosition[1] - 1.6;
+    const dz = targetPosition[2];
+    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+    onFocusUpdate(Math.round(dist * 100) / 100);
+  };
 
   return (
     <>
@@ -417,37 +115,26 @@ const SceneContent: React.FC<SceneContentProps> = ({ vFov, unit, fNumber, focusD
 
       <DistanceMarkers unit={unit} />
 
-      {/* 車 (10m, 右側) */}
-      <SportsCar position={[4, 0, -10]} rotation={[0, -Math.PI / 6, 0]} />
+      {/* インタラクティブな3Dオブジェクト */}
+      <SportsCar position={[4, 0, -10]} rotation={[0, -Math.PI / 6, 0]} onClick={(e) => handleObjectClick(e, [4, 0.6, -10])} />
+      <Human position={[0, 0, -15.15]} onClick={(e) => handleObjectClick(e, [0, 1.5, -15.15])} />
+      <Tree position={[5, 0, -30]} onClick={(e) => handleObjectClick(e, [5, 2.5, -30])} />
+      <Bush position={[-6, 0, -40]} onClick={(e) => handleObjectClick(e, [-6, 0.4, -40])} />
+      <House position={[-8, 0, -60]} onClick={(e) => handleObjectClick(e, [-8, 2.0, -60])} />
+      <Tree position={[6, 0, -80]} onClick={(e) => handleObjectClick(e, [6, 2.5, -80])} />
+      <Mountain position={[0, 0, -130]} onClick={(e) => handleObjectClick(e, [0, 15, -130])} />
 
-      {/* 人物 (顔面が15mになるよう z=-15.15 に配置) */}
-      <Human position={[0, 0, -15.15]} />
-
-      {/* 木 (30m, 右側) */}
-      <Tree position={[5, 0, -30]} />
-
-      {/* 低木 (40m, 左側) */}
-      <Bush position={[-6, 0, -40]} />
-
-      {/* 建物 (60m, 左寄り) */}
-      <House position={[-8, 0, -60]} />
-
-      {/* 木 (80m, 右側) */}
-      <Tree position={[6, 0, -80]} />
-
-      {/* 山 */}
-      <Mountain position={[0, 0, -130]} />
-
-      {/* ポストプロセス: 被写界深度（DoF）エフェクト
-           postprocessing v6: focusDistance / focusRange はワールド単位（m） */}
-      <EffectComposer>
-        <DepthOfField
-          focusDistance={dofParams.focusDistance}
-          focusRange={dofParams.focusRange}
-          bokehScale={dofParams.bokehScale}
-          height={720}
-        />
-      </EffectComposer>
+      {/* ポストプロセス: 被写界深度（DoF）エフェクト */}
+      {isDofEnabled && (
+        <EffectComposer>
+          <DepthOfField
+            focusDistance={dofParams.focusDistance}
+            focusRange={dofParams.focusRange}
+            bokehScale={dofParams.bokehScale}
+            height={720}
+          />
+        </EffectComposer>
+      )}
     </>
   );
 };
@@ -462,9 +149,11 @@ interface CameraView3DProps {
   nearLimitM: number;
   farLimitM: number;
   isAutoFocus: boolean;
+  isDofEnabled: boolean;
+  onFocusUpdate: (dist: number) => void;
 }
 
-export const CameraView3D: React.FC<CameraView3DProps> = ({ vFov, aspect, targetRatioStr, unit, fNumber, focusDistanceM, nearLimitM, farLimitM, isAutoFocus }) => {
+export const CameraView3D: React.FC<CameraView3DProps> = ({ vFov, aspect, targetRatioStr, unit, fNumber, focusDistanceM, nearLimitM, farLimitM, isAutoFocus, isDofEnabled, onFocusUpdate }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperSize, setWrapperSize] = useState({ w: 800, h: 400 });
 
@@ -517,6 +206,8 @@ export const CameraView3D: React.FC<CameraView3DProps> = ({ vFov, aspect, target
             nearLimitM={nearLimitM}
             farLimitM={farLimitM}
             isAutoFocus={isAutoFocus}
+            isDofEnabled={isDofEnabled}
+            onFocusUpdate={onFocusUpdate}
           />
         </Canvas>
       </div>
