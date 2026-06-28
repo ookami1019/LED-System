@@ -2,16 +2,19 @@ version: '3.8'
 
 services:
   # ============================================================
-  # ShutterSync Quick Analyzer (Flickr)
-  # アクセス: http://localhost:3003/flickr/
+  # LED System (Unified)
+  # アクセス: 
+  # - http://localhost:3004/ (Portal)
+  # - http://localhost:3004/lens-simulation/ (Lens Simulation)
+  # - http://localhost:3004/flickr/ (Flickr)
   # ============================================================
-  flickr:
+  led-system:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: flickr
+    container_name: led-system
     ports:
-      - "3003:80"
+      - "3004:80"
     restart: always
     networks:
       - web-network
