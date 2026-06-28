@@ -15,7 +15,11 @@ services:
       - "3004:80"
     restart: always
     networks:
-      - web-network
+      web-network:
+        aliases:
+          - portal
+          - lens-simulation
+          - flickr
 
 networks:
   web-network:
