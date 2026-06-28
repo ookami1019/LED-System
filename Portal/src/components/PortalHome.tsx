@@ -30,7 +30,12 @@ export function PortalHome({ onSelectView }: PortalHomeProps) {
       title: 'Camera Angle Simulation',
       description: '焦点距離・センサーサイズ・アスペクト比を変えながら、画角と圧縮効果をリアルタイムで確認できるシミュレーターです。',
       status: 'active',
-      icon: '🎥',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <polygon points="23 7 16 12 23 17 23 7"></polygon>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+        </svg>
+      ),
       tag: '利用可能',
     },
     {
@@ -38,7 +43,19 @@ export function PortalHome({ onSelectView }: PortalHomeProps) {
       title: 'LED Wall Controller',
       description: 'LEDコントローラーの設定値（輝度、色温度、グレースケール）を仮想的にシミュレーションし、各種テストパターンを出力します。',
       status: 'placeholder',
-      icon: '🎛️',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <line x1="4" y1="21" x2="4" y2="14"></line>
+          <line x1="4" y1="10" x2="4" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12" y2="3"></line>
+          <line x1="20" y1="21" x2="20" y2="16"></line>
+          <line x1="20" y1="12" x2="20" y2="3"></line>
+          <line x1="1" y1="14" x2="7" y2="14"></line>
+          <line x1="9" y1="8" x2="15" y2="8"></line>
+          <line x1="17" y1="16" x2="23" y2="16"></line>
+        </svg>
+      ),
       tag: '開発中',
     },
     {
@@ -46,7 +63,21 @@ export function PortalHome({ onSelectView }: PortalHomeProps) {
       title: 'LED Signal Calculator',
       description: '送出解像度、リフレッシュレート、色深度から必要なイーサネットポート数や帯域幅を自動計算するDIT向けツールです。',
       status: 'placeholder',
-      icon: '📊',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+          <line x1="8" y1="6" x2="16" y2="6"></line>
+          <line x1="16" y1="14" x2="16" y2="14.01"></line>
+          <line x1="12" y1="14" x2="12" y2="14.01"></line>
+          <line x1="8" y1="14" x2="8" y2="14.01"></line>
+          <line x1="16" y1="10" x2="16" y2="10.01"></line>
+          <line x1="12" y1="10" x2="12" y2="10.01"></line>
+          <line x1="8" y1="10" x2="8" y2="10.01"></line>
+          <line x1="16" y1="18" x2="16" y2="18.01"></line>
+          <line x1="12" y1="18" x2="12" y2="18.01"></line>
+          <line x1="8" y1="18" x2="8" y2="18.01"></line>
+        </svg>
+      ),
       tag: '開発中',
     },
   ];
