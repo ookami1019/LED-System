@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --color-gray-750: #2d3748;
+  --color-gray-850: #1a202c;
+  --color-gray-900: #0f172a;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-gray-900);
+    color: var(--color-gray-100);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    font-size: 1rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Range Slider Styles */
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    height: 32px; /* タッチエリアの確保 */
+  }
+  
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-color: var(--color-blue-500);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    margin-top: -11px; /* (6px - 28px) / 2 */
+    transition: transform 0.1s ease, background-color 0.2s;
+  }
+  
+  input[type=range]::-webkit-slider-thumb:active {
+    transform: scale(1.15);
+    background-color: var(--color-blue-400);
+  }
+  
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background-color: var(--color-gray-700);
+    border-radius: 3px;
+  }
+
+  /* SafeArea Utilities: iOS Capacitor等で確実に認識させるため、fallbackとして固定値を指定 */
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top), 20px);
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 16px);
+  }
+  .pl-safe {
+    padding-left: max(env(safe-area-inset-left), 16px);
+  }
+  .pr-safe {
+    padding-right: max(env(safe-area-inset-right), 16px);
+  }
+  .px-safe {
+    padding-left: max(env(safe-area-inset-left), 16px);
+    padding-right: max(env(safe-area-inset-right), 16px);
+  }
+
+  /* Specific accent colors for thumbs since appearance: none is used */
+  input[type=range].accent-amber-400::-webkit-slider-thumb {
+    background-color: var(--color-amber-400);
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

@@ -16,6 +16,14 @@ export function PortalHome({ onSelectView }: PortalHomeProps) {
       tag: '利用可能',
     },
     {
+      id: 'lens-simulation' as const,
+      title: 'Camera Angle Simulation',
+      description: '焦点距離・センサーサイズ・アスペクト比を変えながら、画角と圧縮効果をリアルタイムで確認できるシミュレーターです。',
+      status: 'active',
+      icon: '🎥',
+      tag: '利用可能',
+    },
+    {
       id: 'controller' as const,
       title: 'LED Wall Controller',
       description: 'LEDコントローラーの設定値（輝度、色温度、グレースケール）を仮想的にシミュレーションし、各種テストパターンを出力します。',
@@ -50,6 +58,8 @@ export function PortalHome({ onSelectView }: PortalHomeProps) {
             onClick={() => {
               if (tool.id === 'flickr') {
                 window.location.href = '/flickr/';
+              } else if (tool.id === 'lens-simulation') {
+                window.location.href = '/lens-simulation/';
               } else {
                 onSelectView(tool.id);
               }
