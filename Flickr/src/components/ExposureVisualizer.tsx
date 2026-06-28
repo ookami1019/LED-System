@@ -61,9 +61,12 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
   const isGlobalShutterOpen = (t % frameDuration) < exposureTime;
   const globalShutterOpacity = isGlobalShutterOpen ? 1 : 0.15;
 
-  // LEDスキャンライン
-  const ledScanY = (t % ledPeriod) / ledPeriod * 100;
-  const isLedBright = (t % ledPeriod) / ledPeriod <= 0.8;
+  // LEDスキャンライン（ゆっくりではなく、更新タイミングで素早くスキャンする表現に変更）
+  const ledCyclePhase = (t % ledPeriod) / ledPeriod; // 0.0 ~ 1.0
+  const isLedUpdating = ledCyclePhase < 0.15; // サイクルの最初の15%の時間を更新（スキャン）時間とする
+  const ledScanY = isLedUpdating ? (ledCyclePhase / 0.15) * 100 : 100;
+
+  const isLedBright = ledCyclePhase <= 0.8;
   const globalLedOpacity = isLedBright ? 1 : 0.7;
 
   const getShutterPath = (cx: number, cy: number, r: number, angle: number) => {
@@ -229,7 +232,7 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
           </span>
           <div className="w-full max-w-[140px] aspect-square flex items-center justify-center">
             <div className={`relative w-full h-[120px] bg-slate-950 border-2 border-gray-700 rounded-lg overflow-hidden flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]`} style={inputs.sensorType === 'Global' ? { opacity: globalLedOpacity } : undefined}>
-              {inputs.sensorType === 'Rolling' && (
+              {inputs.sensorType === 'Rolling' && isLedUpdating && (
                 <div className="absolute left-0 w-full h-1 bg-gradient-to-b from-transparent via-white/80 to-transparent shadow-[0_0_10px_rgba(255,255,255,0.6)]" style={{ top: `${ledScanY}%` }} />
               )}
               <span className="z-10 font-mono text-[10px] tracking-widest text-gray-500 uppercase select-none">
@@ -251,12 +254,10 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
               }} className="w-3.5 h-3.5 accent-blue-500" />
               シミュレーション再生
             </label>
-            {isScrolling && (
-              <div className="flex items-center gap-2 bg-gray-900/40 border border-gray-700/50 px-2.5 py-1.5 rounded-lg">
-                <span className="text-[10px] text-gray-400 font-mono w-12">速度: {speedMultiplier.toFixed(1)}x</span>
-                <input type="range" min="0.1" max="5.0" step="0.1" value={speedMultiplier} onChange={(e) => setSpeedMultiplier(parseFloat(e.target.value))} className="w-16 h-1 bg-gray-700 rounded-full appearance-none outline-none accent-blue-500" style={{ height: '4px' }} />
-              </div>
-            )}
+            <div className="flex items-center gap-2 bg-gray-900/40 border border-gray-700/50 px-2.5 py-1.5 rounded-lg">
+              <span className="text-[10px] text-gray-400 font-mono w-12">速度: {speedMultiplier.toFixed(1)}x</span>
+              <input type="range" min="0.1" max="5.0" step="0.1" value={speedMultiplier} onChange={(e) => setSpeedMultiplier(parseFloat(e.target.value))} className="w-16 h-1 bg-gray-700 rounded-full appearance-none outline-none accent-blue-500" style={{ height: '4px' }} />
+            </div>
           </div>
         </div>
 
