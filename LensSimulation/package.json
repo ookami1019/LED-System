@@ -17,7 +17,7 @@
     "postprocessing": "^6.39.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "three": "^0.184.0"
+    "three": "0.183.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
@@ -25,7 +25,7 @@
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.184.0",
+    "@types/three": "0.183.0",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.5.0",
     "eslint": "^9.39.4",
