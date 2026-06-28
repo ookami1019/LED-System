@@ -34,11 +34,19 @@ export function analyzeSettings(rawInputs: AnalyzerInputs): DiagnosticResult {
   if (inputs.sensorType === 'Rolling') {
     if (inputs.shutterMode === 'Angle') {
       if (inputs.shutterValue !== 180) {
-        phase1Results.push({
-          id: 'check_shutter_angle',
-          severity: 'High',
-          advice: '【重要】シャッター角度は原則「180°」に設定してください。角度を狭くするとスキャンラインは回避しやすくなりますが、代償としてLED特有の「バンディング(横縞)」「モアレ」の発生リスクが跳ね上がり、不自然な動き(モーションブラー不足)の原因となります。180°を維持したままPhase Offset等で調整するのが基本です。',
-        });
+        if (inputs.shutterValue < 180) {
+          phase1Results.push({
+            id: 'check_shutter_angle',
+            severity: 'High',
+            advice: '【重要】シャッター角度は原則「180°」に設定してください。角度を狭くするとスキャンラインは回避しやすくなりますが、代償としてLED特有の「バンディング(横縞)」「モアレ」の発生リスクが跳ね上がり、不自然な動き(モーションブラー不足)の原因となります。180°を維持したままPhase Offset等で調整するのが基本です。',
+          });
+        } else {
+          phase1Results.push({
+            id: 'check_shutter_angle',
+            severity: 'High',
+            advice: '【重要】シャッター角度は原則「180°」に設定してください。角度を広くすると、シャッターが閉じている時間（LED更新を隠せる安全地帯）が短くなり、スキャンラインの干渉を回避することが物理的に困難になります。また、過剰なモーションブラー（ブレ）が発生してしまいます。',
+          });
+        }
         hasIssues = true;
       }
     } else if (inputs.shutterMode === 'Speed') {
@@ -49,11 +57,19 @@ export function analyzeSettings(rawInputs: AnalyzerInputs): DiagnosticResult {
         // 許容誤差を考慮 (例えば 179.5 ~ 180.5)
         if (Math.abs(calculatedShutterAngle - 180) > 0.5) {
           const recommendedSpeed = inputs.cameraHsFps * 2;
-          phase1Results.push({
-            id: 'check_shutter_angle',
-            severity: 'High',
-            advice: `【重要】現在のシャッタースピードから計算される角度は ${calculatedShutterAngle}° です。180°（1/${recommendedSpeed}秒）に設定してください。短すぎる露光時間は「バンディング(横縞)」や「モアレ」、不自然な動きなどの致命的な映像ノイズを引き起こすため推奨されません。`,
-          });
+          if (calculatedShutterAngle < 180) {
+            phase1Results.push({
+              id: 'check_shutter_angle',
+              severity: 'High',
+              advice: `【重要】現在のシャッタースピードから計算される角度は ${calculatedShutterAngle}° です。180°（1/${recommendedSpeed}秒）に設定してください。短すぎる露光時間は「バンディング(横縞)」や「モアレ」、不自然な動きなどの致命的な映像ノイズを引き起こすため推奨されません。`,
+            });
+          } else {
+            phase1Results.push({
+              id: 'check_shutter_angle',
+              severity: 'High',
+              advice: `【重要】現在のシャッタースピードから計算される角度は ${calculatedShutterAngle}° です。180°（1/${recommendedSpeed}秒）に設定してください。露光時間が長すぎると、更新タイミングを隠すための時間が短くなりスキャンラインの回避が極めて困難になります。また過剰なブレが生じます。`,
+            });
+          }
           hasIssues = true;
         }
       } else {
