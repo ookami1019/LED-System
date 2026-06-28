@@ -169,8 +169,8 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
     }
 
     return (
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto mt-2" style={{ maxHeight: '80px' }}>
-        <rect width={width} height={height} fill="rgba(30,41,59,0.5)" rx="8" />
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto mt-2 rounded-lg overflow-hidden" style={{ maxHeight: '80px' }}>
+        <rect width={width} height={height} fill="rgba(30,41,59,0.5)" />
         
         {ledLines.map((line) => (
           <g key={`led-group-${line.id}`}>
