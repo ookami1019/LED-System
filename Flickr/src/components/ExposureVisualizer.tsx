@@ -151,7 +151,8 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
         if (i < 0) continue;
         const start = i * frameDuration;
         const end = start + exposureTime;
-        if (t >= start && t <= end) {
+        // ピッタリのタイミング（startやendと完全に一致）は干渉とみなさず安全（緑）とする
+        if (t > start + 0.0001 && t < end - 0.0001) {
           return true;
         }
       }
@@ -181,15 +182,6 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
         <rect width={width} height={height} fill="rgba(30,41,59,0.5)" rx="8" />
         
         <g clipPath="url(#timeline-clip)">
-          {/* フレーム全体（露光＋非露光）の間隔を可視化 */}
-          {frames.map((frame) => (
-            <rect
-              key={`frame-bg-${frame.id}`}
-              x={frame.start} y={15} width={frame.fullWidth} height={35} rx="4"
-              fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="2 2"
-            />
-          ))}
-
           {ledLines.map((line) => (
             <g key={`led-group-${line.id}`}>
               <line
