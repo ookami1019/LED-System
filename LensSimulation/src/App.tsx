@@ -111,6 +111,18 @@ function App() {
       className="min-h-screen min-h-[100dvh] bg-gradient-to-br from-gray-950 to-gray-900 text-gray-100 selection:bg-blue-500/30"
       style={{ paddingTop: 'max(env(safe-area-inset-top), 20px)' }}
     >
+      {/* ========== ポータルへ戻るボタン ========== */}
+      <a
+        href="/"
+        className="fixed left-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 hover:text-white transition-colors"
+        style={{ top: 'max(env(safe-area-inset-top, 16px), 16px)', background: 'rgba(30,41,59,0.5)', border: '1px solid rgba(148,163,184,0.15)', backdropFilter: 'blur(8px)' }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Portal
+      </a>
       {/* ========== スライドインメニュー（モバイル用、lg未満のみ） ========== */}
       <div className="lg:hidden">
         {/* オーバーレイ：メニュー外タップで閉じる */}
