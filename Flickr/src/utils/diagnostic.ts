@@ -37,7 +37,7 @@ export function analyzeSettings(rawInputs: AnalyzerInputs): DiagnosticResult {
         phase1Results.push({
           id: 'check_shutter_angle',
           severity: 'High',
-          advice: '【重要】露光タイミングを合わせるため、カメラのシャッター角度を「180°」に設定してください。',
+          advice: '【重要】シャッター角度は原則「180°」に設定してください。角度を狭くするとスキャンラインは回避しやすくなりますが、代償としてLED特有の「バンディング(横縞)」「モアレ」の発生リスクが跳ね上がり、不自然な動き(モーションブラー不足)の原因となります。180°を維持したままPhase Offset等で調整するのが基本です。',
         });
         hasIssues = true;
       }
@@ -46,13 +46,13 @@ export function analyzeSettings(rawInputs: AnalyzerInputs): DiagnosticResult {
         const calculatedVal = (360 * inputs.cameraHsFps) / inputs.shutterValue;
         calculatedShutterAngle = Math.round(calculatedVal * 100) / 100;
         
-        // 180° からのズレが 0.1° を超える場合に警告
-        if (Math.abs(calculatedShutterAngle - 180) > 0.1) {
-          const recommendedSpeed = Math.round(inputs.cameraHsFps * 2 * 100) / 100;
+        // 許容誤差を考慮 (例えば 179.5 ~ 180.5)
+        if (Math.abs(calculatedShutterAngle - 180) > 0.5) {
+          const recommendedSpeed = inputs.cameraHsFps * 2;
           phase1Results.push({
             id: 'check_shutter_angle',
             severity: 'High',
-            advice: `【重要】現在のシャッタースピード（1/${inputs.shutterValue}秒）から計算されるシャッター角度は ${calculatedShutterAngle}° です。露光タイミングを合わせるため、180°に相当するシャッタースピード（1/${recommendedSpeed}秒）にするか、カメラのシャッターモードを「Angle」にし「180°」に設定してください。`,
+            advice: `【重要】現在のシャッタースピードから計算される角度は ${calculatedShutterAngle}° です。180°（1/${recommendedSpeed}秒）に設定してください。短すぎる露光時間は「バンディング(横縞)」や「モアレ」、不自然な動きなどの致命的な映像ノイズを引き起こすため推奨されません。`,
           });
           hasIssues = true;
         }

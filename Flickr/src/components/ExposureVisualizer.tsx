@@ -243,6 +243,61 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
         </div>
       </div>
 
+      {shutterAngle < 170 && (
+        <div className="mt-1 mb-2 p-4 rounded-xl border border-orange-500/30 bg-orange-500/10 flex flex-col gap-3">
+          <div className="flex items-center gap-2 text-orange-400 font-bold text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+              <path d="M12 9v4"></path>
+              <path d="M12 17h.01"></path>
+            </svg>
+            【警告】狭いシャッター角度による副作用リスク
+          </div>
+          <p className="text-xs text-orange-200/90 leading-relaxed">
+            シャッター角度を狭く（暗く）するとスキャンラインは回避しやすくなりますが、代償としてLED特有の以下の致命的な映像ノイズが発生するリスクが跳ね上がります。原則として<strong>180度を維持したまま、Phase Offset等でスキャンラインを隠す</strong>のがセオリーです。
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-1">
+            <div className="bg-gray-950/60 p-3 rounded-lg border border-orange-500/20 flex flex-col items-center text-center gap-2 relative overflow-hidden">
+              <div className="w-full h-10 bg-slate-800 rounded relative flex flex-col justify-evenly overflow-hidden shadow-inner border border-gray-700">
+                <div className="w-full h-1.5 bg-black/70 animate-pulse"></div>
+                <div className="w-full h-1.5 bg-black/70 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-full h-1.5 bg-black/70 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-bold text-gray-200">バンディング(横縞)</span>
+                <span className="text-[9px] text-gray-400 mt-0.5">短い露光でPWM点滅を拾う</span>
+              </div>
+            </div>
+            
+            <div className="bg-gray-950/60 p-3 rounded-lg border border-orange-500/20 flex flex-col items-center text-center gap-2">
+              <div className="w-full h-10 bg-slate-800 rounded relative flex items-center justify-center border border-gray-700 overflow-hidden">
+                 <div className="w-2.5 h-2.5 rounded-full bg-white/20 absolute left-[20%]"></div>
+                 <div className="w-2.5 h-2.5 rounded-full bg-white/50 absolute left-[50%]"></div>
+                 <div className="w-2.5 h-2.5 rounded-full bg-white absolute left-[80%] shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-bold text-gray-200">不自然な動き(カクつき)</span>
+                <span className="text-[9px] text-gray-400 mt-0.5">モーションブラーが消滅</span>
+              </div>
+            </div>
+            
+            <div className="bg-gray-950/60 p-3 rounded-lg border border-orange-500/20 flex flex-col items-center text-center gap-2">
+              <div className="w-full h-10 bg-slate-800 rounded relative flex items-center justify-center border border-gray-700 overflow-hidden">
+                <svg viewBox="0 0 100 50" className="w-full h-full opacity-60">
+                  <path d="M0,25 Q12,5 25,25 T50,25 T75,25 T100,25" fill="none" stroke="#60a5fa" strokeWidth="1.5" />
+                  <path d="M0,25 Q12,45 25,25 T50,25 T75,25 T100,25" fill="none" stroke="#f472b6" strokeWidth="1.5" />
+                  <path d="M0,15 Q12,35 25,15 T50,15 T75,15 T100,15" fill="none" stroke="#a78bfa" strokeWidth="1.5" />
+                </svg>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[11px] font-bold text-gray-200">モアレの発生</span>
+                <span className="text-[9px] text-gray-400 mt-0.5">絞りを開けてピントが合う</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col gap-2 mt-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <span className="text-xs font-semibold text-gray-400">露光タイミングチャート</span>
