@@ -508,7 +508,7 @@ export const CameraView3D: React.FC<CameraView3DProps> = ({ vFov, aspect, target
       className="w-full h-full flex bg-black relative items-center justify-center overflow-hidden"
     >
       <div style={{ width, height }}>
-        <Canvas gl={{ antialias: true, alpha: false }}>
+        <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: false }}>
           <SceneContent
             vFov={vFov}
             unit={unit}
