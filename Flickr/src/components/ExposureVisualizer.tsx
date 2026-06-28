@@ -169,38 +169,46 @@ export const ExposureVisualizer: React.FC<ExposureVisualizerProps> = ({ inputs, 
     }
 
     return (
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto mt-2 rounded-lg overflow-hidden" style={{ maxHeight: '80px' }}>
-        <rect width={width} height={height} fill="rgba(30,41,59,0.5)" />
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto mt-2" style={{ maxHeight: '80px' }}>
+        <defs>
+          <clipPath id="timeline-clip">
+            <rect width={width} height={height} rx="8" />
+          </clipPath>
+        </defs>
         
-        {ledLines.map((line) => (
-          <g key={`led-group-${line.id}`}>
-            <line
-              x1={line.x} y1={0} x2={line.x} y2={height}
-              stroke={line.isColliding ? '#f87171' : '#4ade80'}
-              strokeWidth={line.isColliding ? '2' : '1.2'}
-              strokeDasharray={line.isColliding ? 'none' : '3 3'}
-              opacity={line.isColliding ? '0.95' : '0.4'}
-            />
-            {line.isColliding && (
-              <circle cx={line.x} cy={15} r="3.5" fill="#f87171" />
-            )}
-          </g>
-        ))}
+        <rect width={width} height={height} fill="rgba(30,41,59,0.5)" rx="8" />
+        
+        <g clipPath="url(#timeline-clip)">
+          {ledLines.map((line) => (
+            <g key={`led-group-${line.id}`}>
+              <line
+                x1={line.x} y1={0} x2={line.x} y2={height}
+                stroke={line.isColliding ? '#f87171' : '#4ade80'}
+                strokeWidth={line.isColliding ? '2' : '1.2'}
+                strokeDasharray={line.isColliding ? 'none' : '3 3'}
+                opacity={line.isColliding ? '0.95' : '0.4'}
+              />
+              {line.isColliding && (
+                <circle cx={line.x} cy={15} r="3.5" fill="#f87171" />
+              )}
+            </g>
+          ))}
 
-        {frames.map((frame) => (
-          <g key={`frame-${frame.id}`}>
-            <rect
-              x={frame.start} y={15} width={frame.width} height={35} rx="4"
-              fill={colors.hex} opacity={0.8}
-            />
-            <text
-              x={frame.start + 8} y={36}
-              fontSize="10" fontWeight="bold" fill="#0f172a"
-            >
-              {frame.label}
-            </text>
-          </g>
-        ))}
+          {frames.map((frame) => (
+            <g key={`frame-${frame.id}`}>
+              <rect
+                x={frame.start} y={15} width={frame.width} height={35} rx="4"
+                fill={colors.hex} opacity={0.8}
+              />
+              <text
+                x={frame.start + 8} y={36}
+                fontSize="10" fontWeight="bold" fill="#0f172a"
+              >
+                {frame.label}
+              </text>
+            </g>
+          ))}
+        </g>
 
         <line x1={0} y1={15} x2={width} y2={15} stroke="rgba(148,163,184,0.2)" strokeWidth="0.5" />
         <line x1={0} y1={50} x2={width} y2={50} stroke="rgba(148,163,184,0.2)" strokeWidth="0.5" />
