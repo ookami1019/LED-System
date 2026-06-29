@@ -179,22 +179,36 @@ export const ParameterPanel: React.FC<ParameterPanelProps> = ({
         {/* シネマカメラ向けUI */}
         {sensorCategory === 'cinema' && (
           <div className="space-y-3 animate-in fade-in duration-300">
-            <select 
-              value={cinemaCameraId} 
-              onChange={(e) => {
-                setCinemaCameraId(e.target.value);
-                setCinemaModeIdx(0); // 機種を変えたらモードを一番上にリセット
-              }}
-              className={`${inputClass}`}
-            >
-              {Array.from(new Set(CINEMA_CAMERAS.map(c => c.maker))).map(maker => (
-                <optgroup key={maker} label={maker}>
-                  {CINEMA_CAMERAS.filter(c => c.maker === maker).map(cam => (
-                    <option key={cam.id} value={cam.id}>{cam.name}</option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
+            <div className="space-y-1 max-h-60 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-600">
+              {Array.from(new Set(CINEMA_CAMERAS.map(c => c.maker))).map(maker => {
+                const isSelectedMaker = selectedCinemaCam?.maker === maker;
+                return (
+                  <details key={maker} className="group bg-slate-800/80 rounded-md border border-slate-700/50" open={isSelectedMaker}>
+                    <summary className="cursor-pointer font-bold p-2.5 text-sm text-slate-200 select-none hover:bg-slate-700/50 transition-colors">
+                      {maker}
+                    </summary>
+                    <div className="flex flex-col gap-1 p-2 pt-0">
+                      {CINEMA_CAMERAS.filter(c => c.maker === maker).map(cam => (
+                        <button
+                          key={cam.id}
+                          onClick={() => {
+                            setCinemaCameraId(cam.id);
+                            setCinemaModeIdx(0);
+                          }}
+                          className={`text-left text-xs p-2 rounded transition-colors ${
+                            cinemaCameraId === cam.id 
+                              ? 'bg-blue-600 text-white font-bold shadow-md' 
+                              : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                          }`}
+                        >
+                          {cam.name}
+                        </button>
+                      ))}
+                    </div>
+                  </details>
+                );
+              })}
+            </div>
 
             {selectedCinemaCam && (
               <div className="space-y-2">

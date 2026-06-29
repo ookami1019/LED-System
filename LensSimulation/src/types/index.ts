@@ -64,6 +64,25 @@ export const CINEMA_CAMERAS: CinemaCamera[] = [
     ]
   },
   {
+    id: 'alexa_mini',
+    maker: 'ARRI',
+    name: 'ARRI ALEXA Mini',
+    modes: [
+      { name: '3.4K Open Gate', w: 28.25, h: 18.17 },
+      { name: '16:9 HD / 3.2K', w: 23.76, h: 13.37 },
+      { name: '4:3 Anamorphic', w: 23.76, h: 17.82 }
+    ]
+  },
+  {
+    id: 'amira',
+    maker: 'ARRI',
+    name: 'ARRI AMIRA',
+    modes: [
+      { name: '3.2K 16:9', w: 23.76, h: 13.37 },
+      { name: 'S16 HD', w: 11.9, h: 6.7 }
+    ]
+  },
+  {
     id: 'venice2_8k',
     maker: 'Sony',
     name: 'Sony VENICE 2 (8K)',
@@ -246,6 +265,16 @@ export const CINEMA_CAMERAS: CinemaCamera[] = [
 
   // Blackmagic
   {
+    id: 'ursa_cine_12k_lf',
+    maker: 'Blackmagic',
+    name: 'URSA Cine 12K LF',
+    modes: [
+      { name: '12K LF (3:2)', w: 35.64, h: 23.32 },
+      { name: '12K LF (16:9)', w: 35.64, h: 20.05 },
+      { name: '8K S35', w: 24.3, h: 13.6 }
+    ]
+  },
+  {
     id: 'ursa_12k',
     maker: 'Blackmagic',
     name: 'URSA Mini Pro 12K',
@@ -320,6 +349,44 @@ export const CINEMA_CAMERAS: CinemaCamera[] = [
     name: 'E2-S6',
     modes: [
       { name: 'S35 6K', w: 23.4, h: 15.67 }
+    ]
+  },
+
+  // Kinefinity
+  {
+    id: 'mavo_edge_8k',
+    maker: 'Kinefinity',
+    name: 'MAVO Edge 8K',
+    modes: [
+      { name: 'FF 8K (3:2)', w: 36.0, h: 24.0 },
+      { name: 'FF 8K (16:9)', w: 36.0, h: 20.2 }
+    ]
+  },
+  {
+    id: 'mavo_edge_6k',
+    maker: 'Kinefinity',
+    name: 'MAVO Edge 6K',
+    modes: [
+      { name: 'FF 6K (3:2)', w: 36.0, h: 24.0 },
+      { name: 'S35 4K', w: 24.0, h: 16.0 }
+    ]
+  },
+
+  // Phantom
+  {
+    id: 'phantom_flex4k',
+    maker: 'Phantom',
+    name: 'Flex4K',
+    modes: [
+      { name: '4K (16:9)', w: 27.6, h: 15.5 }
+    ]
+  },
+  {
+    id: 'phantom_veo4k',
+    maker: 'Phantom',
+    name: 'VEO 4K',
+    modes: [
+      { name: '4K (16:9)', w: 27.6, h: 15.5 }
     ]
   }
 ];
