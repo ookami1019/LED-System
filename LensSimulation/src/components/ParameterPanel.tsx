@@ -187,8 +187,12 @@ export const ParameterPanel: React.FC<ParameterPanelProps> = ({
               }}
               className={`${inputClass}`}
             >
-              {CINEMA_CAMERAS.map(cam => (
-                <option key={cam.id} value={cam.id}>{cam.name}</option>
+              {Array.from(new Set(CINEMA_CAMERAS.map(c => c.maker))).map(maker => (
+                <optgroup key={maker} label={maker}>
+                  {CINEMA_CAMERAS.filter(c => c.maker === maker).map(cam => (
+                    <option key={cam.id} value={cam.id}>{cam.name}</option>
+                  ))}
+                </optgroup>
               ))}
             </select>
 
