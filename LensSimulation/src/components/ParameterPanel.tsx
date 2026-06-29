@@ -158,10 +158,14 @@ export const ParameterPanel: React.FC<ParameterPanelProps> = ({
               onChange={(e) => setPreset(e.target.value as PresetType)}
               className={`${inputClass}`}
             >
+              <option value="medium_format">中判 (43.8x32.9mm)</option>
               <option value="full">フルサイズ (36x24mm)</option>
               <option value="super35">Super 35 (24.89x18.66mm)</option>
-              <option value="apsc">APS-C (23.6x15.6mm)</option>
+              <option value="apsc">APS-C 一般 (23.6x15.6mm)</option>
+              <option value="apsc_canon">APS-C Canon (22.2x14.8mm)</option>
               <option value="mft">マイクロフォーサーズ (17.3x13mm)</option>
+              <option value="inch_1">1インチ (13.2x8.8mm)</option>
+              <option value="inch_1_23">1/2.3インチ (スマホ等 6.17x4.55mm)</option>
             </select>
             <div className="flex justify-between items-center px-1">
               <span className="text-xs text-gray-400">センサー寸法:</span>

@@ -1,4 +1,4 @@
-export type PresetType = 'full' | 'super35' | 'apsc' | 'mft' | 'custom';
+export type PresetType = 'medium_format' | 'full' | 'super35' | 'apsc' | 'apsc_canon' | 'mft' | 'inch_1' | 'inch_1_23' | 'custom';
 export type AspectRatioType = 'original' | '16:9' | '9:16' | '2.35:1' | 'custom';
 export type SensorCategory = 'stills' | 'cinema' | 'custom';
 
@@ -8,10 +8,14 @@ export interface SensorSize {
 }
 
 export const PRESETS: Record<Exclude<PresetType, 'custom'>, SensorSize> = {
+  'medium_format': { w: 43.8, h: 32.9 },
   'full': { w: 36, h: 24 },
   'super35': { w: 24.89, h: 18.66 },
   'apsc': { w: 23.6, h: 15.6 },
-  'mft': { w: 17.3, h: 13 }
+  'apsc_canon': { w: 22.2, h: 14.8 },
+  'mft': { w: 17.3, h: 13 },
+  'inch_1': { w: 13.2, h: 8.8 },
+  'inch_1_23': { w: 6.17, h: 4.55 }
 };
 
 export interface SensorMode {
@@ -35,6 +39,15 @@ export const CINEMA_CAMERAS: CinemaCamera[] = [
       { name: '4.6K 16:9', w: 27.99, h: 15.75 },
       { name: '4K 16:9', w: 24.89, h: 14.0 },
       { name: '3.3K 6:5 (Anamorphic)', w: 20.22, h: 16.95 }
+    ]
+  },
+  {
+    id: 'alexa_65',
+    name: 'ARRI ALEXA 65',
+    modes: [
+      { name: '6.5K Open Gate', w: 54.12, h: 25.58 },
+      { name: '16:9', w: 43.19, h: 24.30 },
+      { name: '2.39:1', w: 54.12, h: 22.64 }
     ]
   },
   {
@@ -62,6 +75,65 @@ export const CINEMA_CAMERAS: CinemaCamera[] = [
       { name: '8K VV (17:9)', w: 40.96, h: 21.60 },
       { name: '6K Super35', w: 30.72, h: 16.20 },
       { name: '4K (17:9)', w: 20.48, h: 10.80 }
+    ]
+  },
+  {
+    id: 'red_komodo',
+    name: 'RED KOMODO 6K',
+    modes: [
+      { name: '6K 17:9', w: 27.03, h: 14.26 },
+      { name: '6K 16:9', w: 27.03, h: 15.20 },
+      { name: '4K 17:9', w: 18.02, h: 9.50 }
+    ]
+  },
+  {
+    id: 'sony_fx9',
+    name: 'Sony FX9',
+    modes: [
+      { name: 'FF 6K (16:9)', w: 35.7, h: 20.1 },
+      { name: 'S35 4K (16:9)', w: 24.3, h: 13.7 }
+    ]
+  },
+  {
+    id: 'sony_fx6',
+    name: 'Sony FX6',
+    modes: [
+      { name: 'FF (16:9)', w: 35.6, h: 20.0 },
+      { name: 'S35 (16:9)', w: 24.3, h: 13.7 }
+    ]
+  },
+  {
+    id: 'canon_c500mk2',
+    name: 'Canon EOS C500 Mark II',
+    modes: [
+      { name: '5.9K FF (17:9)', w: 38.1, h: 20.1 },
+      { name: '4K S35 (17:9)', w: 26.2, h: 13.8 }
+    ]
+  },
+  {
+    id: 'canon_c300mk3',
+    name: 'Canon EOS C300 Mark III',
+    modes: [
+      { name: '4K S35 (17:9)', w: 26.2, h: 13.8 }
+    ]
+  },
+  {
+    id: 'bmpcc_6k',
+    name: 'Blackmagic Pocket Cinema 6K',
+    modes: [
+      { name: '6K (16:9)', w: 23.1, h: 12.99 },
+      { name: '6K 2.4:1', w: 23.1, h: 9.63 },
+      { name: '5.7K 17:9', w: 21.84, h: 11.51 }
+    ]
+  },
+  {
+    id: 'ursa_12k',
+    name: 'Blackmagic URSA Mini Pro 12K',
+    modes: [
+      { name: '12K 17:9', w: 27.03, h: 14.25 },
+      { name: '12K 16:9', w: 27.03, h: 15.20 },
+      { name: '8K 17:9', w: 27.03, h: 14.25 },
+      { name: '4K S16', w: 13.51, h: 7.12 }
     ]
   }
 ];
