@@ -135,6 +135,75 @@ export const CINEMA_CAMERAS: CinemaCamera[] = [
       { name: '8K 17:9', w: 27.03, h: 14.25 },
       { name: '4K S16', w: 13.51, h: 7.12 }
     ]
+  },
+  {
+    id: 'venice_6k',
+    name: 'Sony VENICE (6K)',
+    modes: [
+      { name: '6K 3:2', w: 36.2, h: 24.1 },
+      { name: '6K 17:9', w: 36.2, h: 19.1 },
+      { name: '5.7K 16:9', w: 35.7, h: 20.1 },
+      { name: '4K S35 17:9', w: 24.3, h: 12.8 }
+    ]
+  },
+  {
+    id: 'burano_8k',
+    name: 'Sony BURANO 8K',
+    modes: [
+      { name: 'FF 8.6K 16:9', w: 35.9, h: 20.2 },
+      { name: 'FF Crop 6K 16:9', w: 24.0, h: 13.5 },
+      { name: 'S35 5.8K 17:9', w: 24.3, h: 12.8 }
+    ]
+  },
+  {
+    id: 'alexa_mini',
+    name: 'ARRI ALEXA Mini',
+    modes: [
+      { name: '3.4K Open Gate', w: 28.25, h: 18.17 },
+      { name: '16:9 HD / 3.2K', w: 23.76, h: 13.37 },
+      { name: '4:3 Anamorphic', w: 23.76, h: 17.82 }
+    ]
+  },
+  {
+    id: 'red_monstro',
+    name: 'RED MONSTRO 8K VV',
+    modes: [
+      { name: '8K VV (17:9)', w: 40.96, h: 21.60 },
+      { name: '6K S35 (17:9)', w: 30.72, h: 16.20 }
+    ]
+  },
+  {
+    id: 'red_helium',
+    name: 'RED HELIUM 8K S35',
+    modes: [
+      { name: '8K 17:9', w: 29.90, h: 15.77 },
+      { name: '6K 17:9', w: 22.43, h: 11.83 }
+    ]
+  },
+  {
+    id: 'red_gemini',
+    name: 'RED GEMINI 5K S35',
+    modes: [
+      { name: '5K 17:9', w: 30.72, h: 16.20 },
+      { name: '4K 17:9', w: 24.58, h: 12.96 }
+    ]
+  },
+  {
+    id: 'canon_c70',
+    name: 'Canon EOS C70',
+    modes: [
+      { name: '4K S35 (17:9)', w: 26.2, h: 13.8 },
+      { name: '4K S35 (16:9)', w: 24.6, h: 13.8 }
+    ]
+  },
+  {
+    id: 'panasonic_s1h',
+    name: 'Panasonic Lumix S1H',
+    modes: [
+      { name: '6K FF (3:2)', w: 35.6, h: 23.8 },
+      { name: '5.9K FF (16:9)', w: 35.6, h: 20.0 },
+      { name: '4K S35', w: 24.8, h: 14.0 }
+    ]
   }
 ];
 
